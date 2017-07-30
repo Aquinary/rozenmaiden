@@ -1,0 +1,7 @@
+*.manifest
+*.xml
+*.pdb
+bin/
+obj/
+*.pdb
+Source/.vs/Alice/v14/.suo

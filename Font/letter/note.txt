@@ -1,0 +1,1 @@
+﻿Текстура после применения требует Smart Blur aka Selective Gaussian Blur, шрифт должен быть без сглаживания.

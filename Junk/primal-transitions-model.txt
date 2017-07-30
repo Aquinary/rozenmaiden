@@ -1,0 +1,66 @@
+Синопсис:
+
+Храним в джейсоне/хмл/... описание сообщений включая варианты ответов и условия переходов.
+Читая этот файлик десериализуем сообщения и мапим их инстансы по айдишникам.
+По ходу игры сохраняем трек действий игрока.
+Когда надо выбрать переход матчим паттерны переходов на трек.
+По какому-нибудь правилу выбираем переход из подходящих.
+(Первый подходящий, случайный, наиболее подходящий, етц)
+
+
+Псевдокод:
+
+class Message {
+  List<Choice> choices; // Варианты ответов на сообщение
+  Id id; // Уникальный идентификатор сообщения
+  Body body; // Содержание сообщения
+}
+
+class Choice {
+  List<Transition> transitions; // Варианты переходов при этом выборе
+  Body body; // Описание выбора
+}
+
+class Transition {
+  Id id; // сообщение, к которму ведет этот переход
+  Dictionary<Id, Boolean> pattern; // условия этого перехода
+  // в качестве условий тут факты переходов через дургие сообщения ранее
+  // это для примера, можно использовать любые факты из истории прохождения
+}
+
+Dictionary<Id, Message> navi; // Маппинг айдишников в инстансы.
+
+List<Id> track; // История переходов через сообщения
+// это для примера, история прохождения разумеется может быть сложнее
+// тогда и условия переходов можно будет делать соответствующие
+
+
+Пример джейсона описывающего одно сообщение с переходами:
+
+{
+  “id” : “alpha“,
+  “body” : “Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ornare ex eu dui volutpat aliquam. Nulla quis lorem euismod, efficitur risus bibendum, porta tortor. Aenean massa risus, fringilla eget volutpat lacinia, dignissim sed orci.”,
+  “choices” : [
+    {
+      “transitions” : [
+        {“id” : “bravo“, “pattern”: [“charlie”: true, “delta”: false, “echo”: false]},
+        {“id” : “kilo“, “pattern”: [“lima”: true, “mike”: true]},
+        {“id” : “november“, “pattern”: []}
+      ],
+      “body” : “Duis convallis, dolor fermentum porttitor dapibus, ante mauris lacinia est, ac tempor massa dui in ante.“
+    },
+    {
+      “transitions” : [
+        {“id” : “foxtrot“, “pattern”: [“golf” : true, “hotel” : true]},
+        {“id” : “oscar“, “pattern”: []}
+      ],
+      “body” : “Dut posuere mollis ex, quis hendrerit sapien fermentum in.“
+    },
+    {
+      “transitions” : [
+        {“id” : “india“, “pattern”: []}
+      ],
+      “body” : “Aenean eu bibendum odio. Pellentesque aliquet volutpat turpis lobortis tempus.“
+    }
+  ]
+}
